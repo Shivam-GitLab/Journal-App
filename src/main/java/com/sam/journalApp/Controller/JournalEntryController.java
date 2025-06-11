@@ -19,6 +19,12 @@ public class JournalEntryController {
     public List<JournalEntry> getAll(){
         return new ArrayList<>(journalEntries.values());
     }
+
+
+    @GetMapping("/getPostById")
+    public List<JournalEntry> getPostById(){
+        return new ArrayList<>(journalEntries.values());
+    }
     //
 }
 
