@@ -26,5 +26,6 @@ public class JournalEntryController {
         return new ArrayList<>(journalEntries.values());
     }
     //
+     //
 }
 
