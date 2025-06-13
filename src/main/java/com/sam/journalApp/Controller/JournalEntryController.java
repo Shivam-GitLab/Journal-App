@@ -29,9 +29,6 @@ public class JournalEntryController {
     public List<JournalEntry> getPostBy(){
         return new ArrayList<>(journalEntries.values());
     }
-    //
-     //
 
-    //
 }
 
