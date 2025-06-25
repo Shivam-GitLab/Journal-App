@@ -17,8 +17,6 @@ public class JournalEntryController {
     public List<JournalEntry> getAll(){
         return new ArrayList<>(journalEntries.values());
     }
-    public List<JournalEntry> getAl(){
-        return new ArrayList<>(journalEntries.values());
-    }
+
 }
 
