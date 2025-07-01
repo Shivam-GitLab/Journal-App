@@ -16,7 +16,7 @@ public class JournalEntryController {
     @GetMapping("/getAll")
     public List<JournalEntry> getAll(){
         return new ArrayList<>(journalEntries.values());
-//        return new ArrayList<>(journalEntries.values());
+
 
 
     }
