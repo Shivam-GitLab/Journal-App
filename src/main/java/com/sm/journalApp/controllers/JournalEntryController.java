@@ -4,8 +4,6 @@ import com.sm.journalApp.entities.JournalEntry;
 import com.sm.journalApp.entities.User;
 import com.sm.journalApp.services.JournalEntryService;
 import com.sm.journalApp.services.UserService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
