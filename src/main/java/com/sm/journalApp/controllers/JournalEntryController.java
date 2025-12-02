@@ -4,6 +4,7 @@ import com.sm.journalApp.entities.JournalEntry;
 import com.sm.journalApp.entities.User;
 import com.sm.journalApp.services.JournalEntryService;
 import com.sm.journalApp.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @RestController()  // Component + Additional Functionality
 @RequestMapping("/journal") // Add Mapping on Entire Class
 public class JournalEntryController {
     private final JournalEntryService journalEntryService;
     private final UserService userService;
-
-    public JournalEntryController(JournalEntryService journalEntryService, UserService userService) {
-        this.journalEntryService = journalEntryService;
-        this.userService = userService;
-    }
-
     @GetMapping("/get-all/{userName}")
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName) {
         User user = userService.findByUserName(userName);
@@ -63,6 +58,8 @@ public class JournalEntryController {
                 entry.setDate(LocalDateTime.now());
                 journalEntryService.saveEntry(entry, userName);
             }
+
+
             return new ResponseEntity<>(entries, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

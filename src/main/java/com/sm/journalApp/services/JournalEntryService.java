@@ -4,22 +4,20 @@ package com.sm.journalApp.services;
 import com.sm.journalApp.entities.JournalEntry;
 import com.sm.journalApp.entities.User;
 import com.sm.journalApp.repositories.JournalEntryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @Component
+@Slf4j
 public class JournalEntryService {
-    @Autowired
-    private JournalEntryRepository journalEntryRepository;
-    @Autowired
-    private UserService userService;
-
-
+    private final JournalEntryRepository journalEntryRepository;
+    private final UserService userService;
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName) {
         try {
@@ -30,7 +28,7 @@ public class JournalEntryService {
 //            user.setUserName(null); // Double check this is what you want
             userService.saveUser(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error while processing request", e);
             throw new RuntimeException("An error occurred while saving the entry.", e);
         }
     } 
