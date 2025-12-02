@@ -8,19 +8,24 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
-@RestController()  // Component + Additional Functionality
+@RestController // Component + Additional Functionality
 @RequestMapping("/journal") // Add Mapping on Entire Class
 public class JournalEntryController {
     private final JournalEntryService journalEntryService;
     private final UserService userService;
-    @GetMapping("/get-all/{userName}")
-    public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName) {
+
+    @GetMapping("/get-all-entry")
+    public ResponseEntity<?> getAllJournalEntriesOfUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         User user = userService.findByUserName(userName);
         List<JournalEntry> all = user.getJournalEntries();
         if (all != null && !all.isEmpty()) {
@@ -37,8 +42,10 @@ public class JournalEntryController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/create-post/{userName}")
-    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry, @PathVariable String userName) {
+    @PostMapping("/create-post")
+    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         try {
             myEntry.setDate(LocalDateTime.now());
             journalEntryService.saveEntry(myEntry, userName);
@@ -48,18 +55,17 @@ public class JournalEntryController {
         }
     }
 
-    @PostMapping("/create-post-multiple/{userName}")
+    @PostMapping("/create-post-multiple")
     public ResponseEntity<List<JournalEntry>> createMultipleEntries(
-            @RequestBody List<JournalEntry> entries,
-            @PathVariable String userName) {
+            @RequestBody List<JournalEntry> entries) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         try {
             // Set date for each entry and save
             for (JournalEntry entry : entries) {
                 entry.setDate(LocalDateTime.now());
                 journalEntryService.saveEntry(entry, userName);
             }
-
-
             return new ResponseEntity<>(entries, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
