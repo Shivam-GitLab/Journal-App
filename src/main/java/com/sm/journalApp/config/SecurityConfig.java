@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                 auth -> auth
-                        .requestMatchers("/journal/**")
+                        .requestMatchers("/journal/**","/user/**")
                         .authenticated()
                         .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())

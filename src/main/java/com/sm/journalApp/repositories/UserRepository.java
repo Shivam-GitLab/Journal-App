@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository // Optional, but a good practice
 public interface UserRepository extends MongoRepository<User, ObjectId> {
     User findByUserName(String userName);
+
+    void deleteByUserName(String name);
 }
