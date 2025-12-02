@@ -30,13 +30,11 @@ public class SecurityConfig {
                 .formLogin(Customizer.withDefaults());
         return http.build();
     }
-
     // PASSWORD ENCODER (same as your old one)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     // AUTHENTICATION MANAGER (if you need it in a controller/service)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
