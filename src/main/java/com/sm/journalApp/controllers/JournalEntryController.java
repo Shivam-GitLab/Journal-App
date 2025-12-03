@@ -72,28 +72,28 @@ public class JournalEntryController {
         }
     }
 
-
-    @DeleteMapping("id/{userName}/{myId}")
-    public ResponseEntity<?> deleteJournalEntryById(@PathVariable ObjectId myId, @PathVariable String userName) {
+/*    @DeleteMapping
+    public ResponseEntity<?> deleteJournalEntryById() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         journalEntryService.deleteById(myId, userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    }*/
 
-    @PutMapping("id/{userName}/{myId}")
+    @PutMapping
     public ResponseEntity<JournalEntry> updateJournalEntryById(
             @PathVariable ObjectId myId,
-            @RequestBody JournalEntry newEntry,
-            @PathVariable String userName) {
+            @RequestBody JournalEntry newEntry) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         JournalEntry oldEntry = journalEntryService.getById(myId).orElse(null);
         if (oldEntry != null) {
-//            oldEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
             oldEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
             journalEntryService.saveEntry(oldEntry); // persist the updated entity
             return new ResponseEntity<>(oldEntry, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        //
     }
 }
 
