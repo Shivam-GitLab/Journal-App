@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
-@RestController // Component + Additional Functionality
-@RequestMapping("/journal") // Add Mapping on Entire Class
+@RestController
+@RequestMapping("/journal")
 public class JournalEntryController {
     private final JournalEntryService journalEntryService;
     private final UserService userService;
