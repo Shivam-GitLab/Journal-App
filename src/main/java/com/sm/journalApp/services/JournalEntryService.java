@@ -54,6 +54,10 @@ public class JournalEntryService {
         journalEntryRepository.deleteById(myId);
     }
 
+    public List<JournalEntry> findByUserName(String userName){
+        User user = userService.findByUserName(userName);
+        return user.getJournalEntries();
+    }
 }
 
 
