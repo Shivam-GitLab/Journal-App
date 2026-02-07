@@ -44,9 +44,9 @@ public class JournalEntryController {
         List<JournalEntry> collect = user.getJournalEntries()
                 .stream()
                 .filter(entry -> entry.getId().equals(myId)).toList();
-        if (!collect.isEmpty()){
+        if (!collect.isEmpty()) {
             Optional<JournalEntry> journalEntry = journalEntryService.getById(myId);
-            if (journalEntry.isPresent()){
+            if (journalEntry.isPresent()) {
                 return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
             }
         }
@@ -83,26 +83,38 @@ public class JournalEntryController {
         }
     }
 
-    /*@DeleteMapping
-    public ResponseEntity<?> deleteJournalEntryById() {
+    @DeleteMapping("id/{myId}")
+    public ResponseEntity<?> deleteJournalEntryById(@PathVariable ObjectId myId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        journalEntryService.deleteById(myId, userName);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
+        boolean removed = journalEntryService.deleteById(myId, userName);
+        if (removed){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
-    @PutMapping
+    @PutMapping("id/{myId}")
     public ResponseEntity<JournalEntry> updateJournalEntryById(
             @PathVariable ObjectId myId,
             @RequestBody JournalEntry newEntry) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        JournalEntry oldEntry = journalEntryService.getById(myId).orElse(null);
-        if (oldEntry != null) {
-            oldEntry.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
-            oldEntry.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : oldEntry.getContent());
-            journalEntryService.saveEntry(oldEntry); // persist the updated entity
-            return new ResponseEntity<>(oldEntry, HttpStatus.OK);
+        User user = userService.findByUserName(userName);
+        List<JournalEntry> collect = user.getJournalEntries()
+                .stream()
+                .filter(entry -> entry.getId().equals(myId)).toList();
+        if (!collect.isEmpty()) {
+            Optional<JournalEntry> journalEntry = journalEntryService.getById(myId);
+            if (journalEntry.isPresent()) {
+                JournalEntry oldEntry = journalEntry.get();
+                oldEntry.setTitle(!newEntry.getTitle().isEmpty() ? newEntry.getTitle() : oldEntry.getTitle());
+                oldEntry.setContent(newEntry.getContent() != null
+                        && !newEntry.getContent().isEmpty()
+                        ? newEntry.getContent() : oldEntry.getContent());
+                journalEntryService.saveEntry(oldEntry); // persist the updated entity
+                return new ResponseEntity<>(oldEntry, HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
