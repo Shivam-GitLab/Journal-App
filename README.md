@@ -1,4 +1,4 @@
-```markdown
+
 # Journal Application With Security
 
 ## 📋 Table of Contents
@@ -1268,4 +1268,5 @@ copies or substantial portions of the Software.
 
 **Last Updated:** January 2025  
 **Maintained by:** Shivam Jha
+
 ```
