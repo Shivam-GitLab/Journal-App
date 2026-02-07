@@ -27,6 +27,7 @@ public class SecurityConfig {
                 auth -> auth
                         .requestMatchers("/journal/**","/user/**")
                         .authenticated()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
