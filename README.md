@@ -1,6 +1,5 @@
 
-# Journal Application With Security
-
+# Journal App
 ## 📋 Table of Contents
 - [Overview](#overview)
 - [Problem Statement](#problem-statement)
@@ -1269,4 +1268,5 @@ copies or substantial portions of the Software.
 **Maintained by:** Shivam Jha
 
 ```
+
 
