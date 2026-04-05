@@ -22,6 +22,7 @@
 ---
 ## Overview
 
+
 **Journal Application With Security** is a modern Spring Boot RESTful web application designed for creating, managing, and persisting personal journal entries. The application leverages MongoDB for NoSQL data persistence and implements comprehensive Spring Security for authentication and authorization, supporting both HTTP Basic Authentication and form-based login mechanisms.
 
 Built with industry best practices, this project demonstrates:
