@@ -1,4 +1,3 @@
-
 # Journal App
 ## 📋 Table of Contents
 - [Overview](#overview)
